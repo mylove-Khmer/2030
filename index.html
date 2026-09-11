@@ -3,484 +3,476 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FB Accounts Store - KHQR</title>
+  <title>FB Accounts Store - KHQR Full Version</title>
+  
+  <!-- QRCode.js library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    }
+    body { 
+      background-color: #0f172a; 
+      color: #f8fafc; 
+      min-height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
     }
 
-    body {
-      background-color: #0f172a;
-      color: #f8fafc;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    /* Navbar */
+    .navbar { 
+      background-color: #1e293b; 
+      border-bottom: 1px solid #334155; 
+      padding: 14px 24px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      position: sticky; 
+      top: 0; 
+      z-index: 100; 
+    }
+    .brand { 
+      font-size: 18px; 
+      font-weight: bold; 
+      color: #38bdf8; 
+    }
+    .user-panel { 
+      display: flex; 
+      align-items: center; 
+      gap: 14px; 
+    }
+    .balance-badge { 
+      background-color: #0f172a; 
+      border: 1px solid #3b82f6; 
+      padding: 6px 14px; 
+      border-radius: 20px; 
+      font-size: 14px; 
+      color: #93c5fd; 
+    }
+    .balance-badge span { 
+      color: #22c55e; 
+      font-weight: bold; 
+    }
+    .btn-topup { 
+      background-color: #e1192e; 
+      color: #ffffff; 
+      border: none; 
+      padding: 7px 14px; 
+      border-radius: 6px; 
+      font-size: 13px; 
+      font-weight: bold; 
+      cursor: pointer; 
+      transition: 0.2s; 
+    }
+    .btn-topup:hover { 
+      background-color: #be1224; 
     }
 
-    .navbar {
-      background-color: #1e293b;
-      border-bottom: 1px solid #334155;
-      padding: 14px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    /* Container & Header */
+    .container { 
+      max-width: 1100px; 
+      margin: 30px auto; 
+      padding: 0 20px; 
+      width: 100%; 
+      flex: 1; 
     }
-
-    .brand {
-      font-size: 18px;
-      font-weight: bold;
-      color: #38bdf8;
-    }
-
-    .user-panel {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .balance-badge {
-      background-color: #0f172a;
-      border: 1px solid #3b82f6;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 14px;
-      color: #93c5fd;
-    }
-
-    .balance-badge span {
-      color: #22c55e;
-      font-weight: bold;
-    }
-
-    .btn-topup {
-      background-color: #e1192e;
-      color: #ffffff;
-      border: none;
-      padding: 7px 14px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .btn-topup:hover {
-      background-color: #be1224;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 30px auto;
-      padding: 0 20px;
-      width: 100%;
-      flex: 1;
-    }
-
     .header-section { margin-bottom: 24px; }
     .header-section h1 { font-size: 24px; margin-bottom: 6px; }
     .header-section p { color: #94a3b8; font-size: 14px; }
 
-    .filter-bar {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
+    /* Filter Bar */
+    .filter-bar { 
+      display: flex; 
+      gap: 10px; 
+      margin-bottom: 24px; 
+      flex-wrap: wrap; 
+    }
+    .filter-btn { 
+      background-color: #1e293b; 
+      border: 1px solid #334155; 
+      color: #cbd5e1; 
+      padding: 8px 16px; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      font-size: 14px; 
+      transition: 0.2s;
+    }
+    .filter-btn.active { 
+      background-color: #2563eb; 
+      border-color: #2563eb; 
+      color: #ffffff; 
     }
 
-    .filter-btn {
-      background-color: #1e293b;
-      border: 1px solid #334155;
-      color: #cbd5e1;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
+    /* Product Grid */
+    .product-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+      gap: 20px; 
     }
-
-    .filter-btn.active {
-      background-color: #2563eb;
-      border-color: #2563eb;
-      color: #ffffff;
+    .product-card { 
+      background-color: #1e293b; 
+      border: 1px solid #334155; 
+      border-radius: 12px; 
+      padding: 20px; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between; 
+      transition: transform 0.2s;
     }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
+    .product-card:hover {
+      transform: translateY(-2px);
     }
-
-    .product-card {
-      background-color: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .card-top { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: flex-start; 
+      margin-bottom: 12px; 
     }
-
-    .card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
+    .product-title { 
+      font-size: 16px; 
+      font-weight: 600; 
+      color: #ffffff; 
     }
-
-    .product-title { font-size: 16px; font-weight: 600; color: #ffffff; }
-
-    .country-tag {
-      font-size: 12px;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-weight: bold;
+    .country-tag { 
+      font-size: 12px; 
+      padding: 3px 8px; 
+      border-radius: 6px; 
+      font-weight: bold; 
     }
-
     .tag-kh { background-color: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
     .tag-us { background-color: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid #3b82f6; }
-
-    .product-meta {
-      list-style: none;
-      margin-bottom: 18px;
-      font-size: 13px;
-      color: #94a3b8;
+    .product-meta { 
+      list-style: none; 
+      margin-bottom: 18px; 
+      font-size: 13px; 
+      color: #94a3b8; 
     }
-
-    .product-meta li {
-      margin-bottom: 6px;
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px dashed #334155;
-      padding-bottom: 4px;
+    .product-meta li { 
+      margin-bottom: 6px; 
+      display: flex; 
+      justify-content: space-between; 
+      border-bottom: 1px dashed #334155; 
+      padding-bottom: 4px; 
     }
-
     .product-meta li span.highlight { color: #f1f5f9; font-weight: 500; }
     .stock-badge { color: #22c55e !important; font-weight: bold; }
-
-    .card-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 10px;
+    .card-bottom { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-top: 10px; 
     }
-
     .price-tag { font-size: 20px; font-weight: bold; color: #38bdf8; }
-
-    .btn-buy {
-      background-color: #2563eb;
-      color: #ffffff;
-      border: none;
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
+    .btn-buy { 
+      background-color: #2563eb; 
+      color: #ffffff; 
+      border: none; 
+      padding: 8px 18px; 
+      border-radius: 8px; 
+      font-size: 14px; 
+      font-weight: bold; 
+      cursor: pointer; 
+      transition: 0.2s;
+    }
+    .btn-buy:hover { background-color: #1d4ed8; }
+    
+    /* Modals Overlay */
+    .modal-overlay { 
+      position: fixed; 
+      top: 0; left: 0; 
+      width: 100%; height: 100%; 
+      background: rgba(0, 0, 0, 0.85); 
+      display: none; 
+      justify-content: center; 
+      align-items: center; 
+      z-index: 999; 
+    }
+    .modal-box { 
+      background-color: #1e293b; 
+      border: 1px solid #334155; 
+      border-radius: 16px; 
+      padding: 24px; 
+      width: 90%; 
+      max-width: 400px; 
+      text-align: center; 
     }
 
-    /* Modal General Overlay */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-
-    .modal-box {
-      background-color: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 24px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-    }
-
-    /* KHQR Standee Card Theme */
-    .khqr-standee-card {
-      background: #ffffff;
-      border-radius: 24px;
-      width: 95%;
-      max-width: 370px;
-      overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-      position: relative;
-      text-align: center;
-      padding-bottom: 22px;
-      animation: popUp 0.25s ease-out;
-    }
-
-    @keyframes popUp {
-      from { transform: scale(0.92); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .khqr-top-banner {
-      background-color: #e1192e;
-      height: 65px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
-    .khqr-top-banner h2 {
-      color: #ffffff;
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: 3px;
-      font-family: Arial, Helvetica, sans-serif;
-      margin: 0;
-    }
-
-    .khqr-close-btn {
-      position: absolute;
-      top: 10px;
-      right: 14px;
-      background: transparent;
-      border: none;
-      font-size: 28px;
-      color: #ffffff;
-      cursor: pointer;
-      opacity: 0.85;
-      line-height: 1;
-    }
-
-    .khqr-body {
-      padding: 16px 20px 0 20px;
-    }
-
-    .amount-control {
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .amount-control label {
-      color: #475569;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .amount-control input {
-      width: 110px;
-      padding: 6px 8px;
-      border: 2px solid #e1192e;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #0f172a;
-      outline: none;
-      text-align: center;
-    }
-
-    .dash-separator {
-      border: none;
-      border-top: 2px dashed #e2e8f0;
-      margin: 12px 0 16px;
-    }
-
-    .qr-large-wrapper {
-      position: relative;
-      display: inline-block;
-      margin: 0 auto;
-    }
-
-    #qrcode {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #qrcode canvas, #qrcode img {
-      display: block;
-    }
-
-    .bakong-center-logo {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 44px;
-      height: 44px;
-      background: #e1192e;
-      border: 3.5px solid #ffffff;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      pointer-events: none;
-    }
-
-    .bakong-center-logo svg {
-      width: 22px;
-      height: 22px;
-      fill: #ffffff;
-    }
-
-    .memo-text {
-      font-size: 13px;
-      color: #64748b;
-      margin: 14px 0 16px;
-    }
-
-    .memo-text strong {
-      color: #0f172a;
-      letter-spacing: 0.5px;
-    }
-
-    .btn-done-red {
-      width: calc(100% - 40px);
-      margin: 0 20px;
-      padding: 12px;
-      background-color: #e1192e;
-      border: none;
-      border-radius: 12px;
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    .btn-done-red:hover {
-      background-color: #be1224;
-    }
-
-    /* Styling សម្រាប់ Custom Success Popup */
-    .success-card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 350px;
-      padding: 24px 20px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      animation: popUp 0.25s ease-out;
-    }
-
-    .check-icon-circle {
-      width: 60px;
-      height: 60px;
-      background-color: #22c55e;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 14px;
-      box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
-    }
-
-    .success-card h3 {
-      color: #ffffff;
-      font-size: 19px;
-      margin-bottom: 4px;
-    }
-
-    .popup-sub {
-      color: #94a3b8;
-      font-size: 13px;
-      margin-bottom: 16px;
-      line-height: 1.4;
-    }
-
-    .summary-box {
+    /* Buy Modal Controls */
+    .buy-input-group {
+      margin: 16px 0;
       background: #0f172a;
       border: 1px solid #334155;
       border-radius: 12px;
-      padding: 12px 14px;
-      margin-bottom: 16px;
-      font-size: 13px;
+      padding: 14px;
+      text-align: left;
     }
-
-    .summary-row {
+    .buy-input-group label {
+      display: block;
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .buy-qty-input {
+      width: 100%;
+      padding: 10px 12px;
+      background: #1e293b;
+      border: 1.5px solid #3b82f6;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: bold;
+      outline: none;
+      text-align: center;
+    }
+    .total-cost-display {
+      margin-top: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 6px 0;
-      border-bottom: 1px dashed #334155;
+      font-size: 14px;
       color: #cbd5e1;
     }
-
-    .summary-row:last-child {
-      border-bottom: none;
+    .total-cost-display strong {
+      font-size: 20px;
+      color: #22c55e;
     }
 
-    .badge-pending {
-      background: rgba(234, 179, 8, 0.15);
-      color: #facc15;
-      border: 1px solid #eab308;
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: bold;
+    /* KHQR Standee Card */
+    .khqr-standee-card { 
+      background: #ffffff; 
+      border-radius: 24px; 
+      width: 95%; 
+      max-width: 370px; 
+      overflow: hidden; 
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); 
+      position: relative; 
+      text-align: center; 
+      padding-bottom: 22px; 
+      animation: popUp 0.25s ease-out; 
+    }
+    @keyframes popUp { 
+      from { transform: scale(0.92); opacity: 0; } 
+      to { transform: scale(1); opacity: 1; } 
+    }
+    .khqr-top-banner { 
+      background-color: #e1192e; 
+      height: 65px; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      position: relative; 
+    }
+    .khqr-top-banner h2 { 
+      color: #ffffff; 
+      font-size: 28px; 
+      font-weight: 900; 
+      letter-spacing: 3px; 
+      font-family: Arial, sans-serif; 
+      margin: 0; 
+    }
+    .khqr-close-btn { 
+      position: absolute; 
+      top: 10px; 
+      right: 14px; 
+      background: transparent; 
+      border: none; 
+      font-size: 28px; 
+      color: #ffffff; 
+      cursor: pointer; 
+      opacity: 0.85; 
+      line-height: 1; 
+    }
+    .khqr-body { padding: 16px 20px 0 20px; }
+    
+    .amount-control { 
+      margin-bottom: 10px; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 8px; 
+    }
+    .amount-control label { color: #475569; font-size: 14px; font-weight: bold; }
+    .amount-control input { 
+      width: 110px; 
+      padding: 6px 8px; 
+      border: 2px solid #e1192e; 
+      border-radius: 8px; 
+      font-size: 18px; 
+      font-weight: bold; 
+      color: #0f172a; 
+      outline: none; 
+      text-align: center; 
     }
 
-    .btn-telegram {
+    .dash-separator { border: none; border-top: 2px dashed #e2e8f0; margin: 12px 0 16px; }
+    .qr-large-wrapper { position: relative; display: inline-block; margin: 0 auto; }
+    #qrcode { display: flex; justify-content: center; align-items: center; }
+    #qrcode canvas, #qrcode img { display: block; }
+    
+    /* Logo Bakong Center */
+    .bakong-center-logo { 
+      position: absolute; 
+      top: 50%; 
+      left: 50%; 
+      transform: translate(-50%, -50%); 
+      width: 44px; 
+      height: 44px; 
+      background: #e1192e; 
+      border: 3.5px solid #ffffff; 
+      border-radius: 50%; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3); 
+      pointer-events: none; 
+    }
+    .bakong-center-logo svg { width: 22px; height: 22px; fill: #ffffff; }
+
+    /* Quick Amounts Chips */
+    .quick-amounts {
       display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 8px;
-      background-color: #0088cc;
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: bold;
-      padding: 11px;
-      border-radius: 10px;
-      margin-bottom: 10px;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .amt-chip {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #0f172a;
+      padding: 4px 10px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
       transition: 0.2s;
     }
-
-    .btn-telegram:hover {
-      background-color: #0077b5;
-    }
-
-    .btn-close-pop {
-      width: 100%;
-      background: transparent;
-      border: none;
-      color: #94a3b8;
-      font-size: 13px;
-      padding: 6px;
-      cursor: pointer;
-    }
-
-    .btn-close-pop:hover {
+    .amt-chip:hover, .amt-chip.active {
+      background: #e1192e;
       color: #ffffff;
+      border-color: #e1192e;
     }
+
+    .memo-text { font-size: 13px; color: #64748b; margin: 14px 0 16px; }
+    .memo-text strong { color: #0f172a; letter-spacing: 0.5px; }
+    
+    .btn-done-red { 
+      width: calc(100% - 40px); 
+      margin: 0 20px; 
+      padding: 12px; 
+      background-color: #e1192e; 
+      border: none; 
+      border-radius: 12px; 
+      color: #ffffff; 
+      font-size: 15px; 
+      font-weight: bold; 
+      cursor: pointer; 
+      transition: 0.2s; 
+    }
+    .btn-done-red:hover { background-color: #be1224; }
+
+    /* Custom Popup Card */
+    .success-card { 
+      background: #1e293b; 
+      border: 1px solid #334155; 
+      border-radius: 20px; 
+      width: 90%; 
+      max-width: 350px; 
+      padding: 24px 20px; 
+      text-align: center; 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6); 
+      animation: popUp 0.25s ease-out; 
+    }
+    .check-icon-circle { 
+      width: 60px; 
+      height: 60px; 
+      background-color: #22c55e; 
+      border-radius: 50%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      margin: 0 auto 14px; 
+      box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4); 
+    }
+    .success-card h3 { color: #ffffff; font-size: 19px; margin-bottom: 4px; }
+    .popup-sub { color: #94a3b8; font-size: 13px; margin-bottom: 16px; line-height: 1.4; }
+    .summary-box { 
+      background: #0f172a; 
+      border: 1px solid #334155; 
+      border-radius: 12px; 
+      padding: 12px 14px; 
+      margin-bottom: 16px; 
+      font-size: 13px; 
+    }
+    .summary-row { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 6px 0; 
+      border-bottom: 1px dashed #334155; 
+      color: #cbd5e1; 
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .badge-pending { 
+      background: rgba(234, 179, 8, 0.15); 
+      color: #facc15; 
+      border: 1px solid #eab308; 
+      padding: 2px 8px; 
+      border-radius: 6px; 
+      font-size: 11px; 
+      font-weight: bold; 
+    }
+    .btn-telegram { 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
+      background-color: #0088cc; 
+      color: #ffffff; 
+      text-decoration: none; 
+      font-size: 14px; 
+      font-weight: bold; 
+      padding: 11px; 
+      border-radius: 10px; 
+      margin-bottom: 10px; 
+      transition: 0.2s;
+    }
+    .btn-telegram:hover { background-color: #0077b5; }
+    .btn-close-pop { 
+      width: 100%; 
+      background: transparent; 
+      border: none; 
+      color: #94a3b8; 
+      font-size: 13px; 
+      padding: 6px; 
+      cursor: pointer; 
+    }
+    .btn-close-pop:hover { color: #ffffff; }
   </style>
 </head>
 <body>
 
+  <!-- Navbar -->
   <nav class="navbar">
     <div class="brand">🌐 FB Accounts Store</div>
     <div class="user-panel">
+      <span style="font-size: 13px; color: #cbd5e1;" id="navUser">ភ្ញៀវ</span>
       <div class="balance-badge">សមតុល្យ: <span id="userBalance">$0.00</span></div>
       <button class="btn-topup" onclick="openDepositModal()">+ បញ្ចូលលុយ</button>
     </div>
   </nav>
 
+  <!-- Container -->
   <div class="container">
     <div class="header-section">
       <h1>បញ្ជីគណនី Facebook សម្រាប់លក់</h1>
       <p>ជ្រើសរើសប្រភេទគណនីតាមប្រទេស អាយុកាល និងតម្លៃដែលអ្នកត្រូវការ</p>
     </div>
 
+    <!-- Filter Buttons -->
     <div class="filter-bar">
       <button class="filter-btn active" onclick="filterProducts('all', this)">ទាំងអស់</button>
       <button class="filter-btn" onclick="filterProducts('KH', this)">🇰🇭 Account ខ្មែរ</button>
@@ -493,19 +485,29 @@
   <!-- Buy Modal -->
   <div class="modal-overlay" id="buyModal">
     <div class="modal-box">
-      <h3 id="modalTitle">បញ្ជាក់ការទិញ</h3>
-      <p id="modalDesc">តើអ្នកពិតជាចង់ទិញគណនីនេះមែនទេ?</p>
+      <h3 id="modalTitle" style="color:#ffffff;">បញ្ជាក់ការបញ្ជាទិញ</h3>
+      <p id="modalDesc" style="color:#94a3b8; font-size:13px; margin-top:4px;">ព័ត៌មានទំនិញ</p>
+      
+      <div class="buy-input-group">
+        <label for="buyQtyInput">បញ្ចូលចំនួនអាខោនដែលចង់ទិញ៖</label>
+        <input type="number" id="buyQtyInput" class="buy-qty-input" min="1" value="1" oninput="updateBuyTotal()">
+        
+        <div class="total-cost-display">
+          <span>តម្លៃសរុបដែលត្រូវបង់៖</span>
+          <strong id="buyTotalCostDisplay">$0.00</strong>
+        </div>
+      </div>
+
       <div style="display:flex; gap:10px; justify-content:center;">
-        <button style="background:#475569; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer;" onclick="closeBuyModal()">បោះបង់</button>
-        <button style="background:#22c55e; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:bold;" onclick="confirmPurchase()">យល់ព្រមទិញ</button>
+        <button style="background:#475569; color:white; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:500;" onclick="closeBuyModal()">បោះបង់</button>
+        <button style="background:#2563eb; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="confirmPurchase()">យល់ព្រមទិញ</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal ផ្ទាំង KHQR ដូចរូបភាពពិត -->
+  <!-- KHQR Standee Modal -->
   <div class="modal-overlay" id="depositModal">
     <div class="khqr-standee-card">
-      
       <div class="khqr-top-banner">
         <h2>KHQR</h2>
         <button class="khqr-close-btn" onclick="closeDepositModal()">&times;</button>
@@ -517,14 +519,20 @@
           <input type="number" step="any" min="0.1" id="customAmountInput" value="2.00" oninput="onAmountChanged()">
         </div>
 
+        <div class="quick-amounts">
+          <button type="button" class="amt-chip" onclick="setQuickAmount(1, this)">$1</button>
+          <button type="button" class="amt-chip active" onclick="setQuickAmount(2, this)">$2</button>
+          <button type="button" class="amt-chip" onclick="setQuickAmount(5, this)">$5</button>
+          <button type="button" class="amt-chip" onclick="setQuickAmount(10, this)">$10</button>
+          <button type="button" class="amt-chip" onclick="setQuickAmount(20, this)">$20</button>
+        </div>
+
         <hr class="dash-separator">
 
         <div class="qr-large-wrapper">
           <div id="qrcode"></div>
           <div class="bakong-center-logo">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/></svg>
           </div>
         </div>
 
@@ -534,61 +542,65 @@
       </div>
 
       <button class="btn-done-red" id="btnSubmitTopup" onclick="submitDepositNotification()">ខ្ញុំបានផ្ទេររួចរាល់</button>
-
     </div>
   </div>
 
-  <!-- Custom Success Popup (ផ្ទាំងស្អាតជំនួស alert) -->
+  <!-- Custom Success Popup -->
   <div class="modal-overlay" id="successPopup" style="z-index: 10000;">
     <div class="success-card">
       <div class="check-icon-circle">
-        <svg viewBox="0 0 24 24" width="34" height="34" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
+        <svg viewBox="0 0 24 24" width="34" height="34" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
       </div>
       
       <h3>កត់ត្រាសំណើរួចរាល់!</h3>
       <p class="popup-sub">សូមផ្ញើវិក្កយបត្រដើម្បីឱ្យ Admin ពិនិត្យបញ្ចូលលុយជូន</p>
 
       <div class="summary-box">
-        <div class="summary-row">
-          <span>ចំនួនទឹកប្រាក់៖</span>
-          <strong id="popAmount" style="color: #22c55e;">$0.00</strong>
-        </div>
-        <div class="summary-row">
-          <span>កូដចំណាំ (Memo)៖</span>
-          <strong id="popMemo" style="color: #38bdf8;">TOPUP0000</strong>
-        </div>
-        <div class="summary-row">
-          <span>ស្ថានភាព៖</span>
-          <span class="badge-pending">រង់ចាំការផ្ទៀងផ្ទាត់</span>
-        </div>
+        <div class="summary-row"><span>ចំនួនទឹកប្រាក់៖</span><strong id="popAmount" style="color: #22c55e;">$0.00</strong></div>
+        <div class="summary-row"><span>កូដចំណាំ (Memo)៖</span><strong id="popMemo" style="color: #38bdf8;">TOPUP0000</strong></div>
+        <div class="summary-row"><span>ស្ថានភាព៖</span><span class="badge-pending">រង់ចាំការផ្ទៀងផ្ទាត់</span></div>
       </div>
 
-      <!-- ដាក់ Link Telegram Admin របស់អ្នកត្រង់ href នេះ -->
-      <a href="https://t.me/your_telegram_username" target="_blank" class="btn-telegram">
+      <a href="https://t.me/horr0007" target="_blank" class="btn-telegram">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
         ផ្ញើវិក្កយបត្រទៅ Telegram Admin
       </a>
-
       <button class="btn-close-pop" onclick="closeSuccessPopup()">បិទផ្ទាំង</button>
     </div>
   </div>
 
   <script>
-    const TELEGRAM_BOT_TOKEN = ""; // បញ្ចូល Token ប្រសិនបើមាន
-    const TELEGRAM_CHAT_ID = "";   // បញ្ចូល Chat ID ប្រសិនបើមាន
+    const TELEGRAM_BOT_TOKEN = "8329430209:AAHb6rl0-s9MrG0R-IuHOAIfQAZWPsRG0qQ";
+    const TELEGRAM_CHAT_ID = "5915683588";
 
+    // ១. គ្រប់គ្រងអ្នកប្រើប្រាស់ និងសមតុល្យ ($0.00 ដាច់ខាតពេលចុះឈ្មោះ)
+    const currentUser = localStorage.getItem("shop_user") || "ភ្ញៀវ (Guest)";
+    document.getElementById("navUser").textContent = "សួស្តី, " + currentUser;
+
+    let currentBalance = 0.00;
+    document.getElementById('userBalance').textContent = `$${currentBalance.toFixed(2)}`;
+
+    // ២. Visitor Tracking ពេលមានអ្នកចូលមើលវេបសាយ
+    window.addEventListener("load", () => {
+      if (!sessionStorage.getItem("visited_already")) {
+        sessionStorage.setItem("visited_already", "true");
+        const visitMsg = `👀 *មានអ្នកទើបតែចូលមើលវេបសាយ!*\n👤 អ្នកប្រើ: \`${currentUser}\`\n⏰ ម៉ោង: ${new Date().toLocaleString('km-KH')}`;
+        fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: visitMsg, parse_mode: "Markdown" })
+        }).catch(err => console.error(err));
+      }
+    });
+
+    // ៣. ក្បួនគណនា KHQR String (CRC16)
     function getCRC16(data) {
       let crc = 0xFFFF;
       for (let i = 0; i < data.length; i++) {
         crc ^= data.charCodeAt(i) << 8;
         for (let j = 0; j < 8; j++) {
-          if ((crc & 0x8000) !== 0) {
-            crc = ((crc << 1) ^ 0x1021) & 0xFFFF;
-          } else {
-            crc = (crc << 1) & 0xFFFF;
-          }
+          if ((crc & 0x8000) !== 0) crc = ((crc << 1) ^ 0x1021) & 0xFFFF;
+          else crc = (crc << 1) & 0xFFFF;
         }
       }
       return crc.toString(16).toUpperCase().padStart(4, '0');
@@ -597,18 +609,7 @@
     function generateDynamicKHQR(amount) {
       const formattedAmount = Number(amount).toFixed(2);
       const amtTag = "54" + formattedAmount.length.toString().padStart(2, '0') + formattedAmount;
-
-      const basePayload = 
-        "000201010212" +
-        "30510016abaakhppxxx@abaa01151260903142910660208ABA Bank" +
-        "52046513" +
-        "5303840" +
-        amtTag + 
-        "5802KH" +
-        "5911MON SAMNANG" +
-        "6012KAMPONG THOM" +
-        "624268380010PAYWAY@ABA0107195096202090324860766304";
-
+      const basePayload = "00020101021230510016abaakhppxxx@abaa01151260903142910660208ABA Bank520465135303840" + amtTag + "5802KH5911MON SAMNANG6012KAMPONG THOM624268380010PAYWAY@ABA0107195096202090324860766304";
       return basePayload + getCRC16(basePayload);
     }
 
@@ -616,67 +617,86 @@
     function renderQR(amount) {
       const qrContainer = document.getElementById("qrcode");
       qrContainer.innerHTML = "";
-
-      const khqrString = generateDynamicKHQR(amount);
-
       qrMaker = new QRCode(qrContainer, {
-        text: khqrString,
-        width: 240,
-        height: 240,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
+        text: generateDynamicKHQR(amount),
+        width: 240, height: 240,
+        colorDark: "#000000", colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.M
       });
     }
 
     function onAmountChanged() {
       const val = parseFloat(document.getElementById("customAmountInput").value);
-      if (!isNaN(val) && val > 0) {
-        renderQR(val);
-      }
+      if (!isNaN(val) && val > 0) renderQR(val);
+    }
+
+    function setQuickAmount(val, btnElement) {
+      document.getElementById("customAmountInput").value = val.toFixed(2);
+      document.querySelectorAll(".amt-chip").forEach(b => b.classList.remove("active"));
+      if (btnElement) btnElement.classList.add("active");
+      renderQR(val);
     }
 
     function openDepositModal() {
       const randomMemo = "TOPUP" + Math.floor(1000 + Math.random() * 9000);
       document.getElementById('transferCode').textContent = randomMemo;
       document.getElementById('depositModal').style.display = 'flex';
-      
-      const currentVal = parseFloat(document.getElementById("customAmountInput").value) || 2.00;
-      renderQR(currentVal);
+      renderQR(parseFloat(document.getElementById("customAmountInput").value) || 2.00);
     }
 
-    function closeDepositModal() {
-      document.getElementById('depositModal').style.display = 'none';
+    function closeDepositModal() { 
+      document.getElementById('depositModal').style.display = 'none'; 
     }
 
+    // ៤. ដំណើរការផ្ញើដំណឹងពេលភ្ញៀវបាញ់លុយ (មានប៊ូតុង Approve / Reject លើ Telegram)
     async function submitDepositNotification() {
       const amount = document.getElementById("customAmountInput").value;
       const memo = document.getElementById("transferCode").textContent;
+      const currentTime = new Date().toLocaleString('km-KH');
 
-      if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
-        const textMsg = `🔔 សំណើបញ្ចូលប្រាក់ថ្មី!\n💰 ចំនួន: $${amount}\n🔖 Memo: ${memo}\n⏰ ម៉ោង: ${new Date().toLocaleString('km-KH')}`;
-        try {
-          await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: textMsg })
-          });
-        } catch (e) {
-          console.error("Telegram send error:", e);
-        }
+      const topupMsg = 
+        `💰 *សំណើបញ្ចូលប្រាក់ថ្មី (TOPUP)!*\n` +
+        `---------------------------\n` +
+        `👤 *អ្នកស្នើ:* \`${currentUser}\`\n` +
+        `💵 *ចំនួន:* $${parseFloat(amount).toFixed(2)}\n` +
+        `🔖 *Memo:* \`${memo}\`\n` +
+        `⏰ *ម៉ោង:* ${currentTime}`;
+
+      const inlineKeyboard = {
+        inline_keyboard: [
+          [
+            { text: "✅ យល់ព្រម (Approve)", callback_data: `approve_${memo}` },
+            { text: "❌ បដិសេធ (Reject)", callback_data: `reject_${memo}` }
+          ]
+        ]
+      };
+
+      try {
+        fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: topupMsg,
+            parse_mode: "Markdown",
+            reply_markup: inlineKeyboard
+          })
+        });
+      } catch (e) {
+        console.error(e);
       }
 
       closeDepositModal();
-
       document.getElementById("popAmount").textContent = `$${parseFloat(amount).toFixed(2)}`;
       document.getElementById("popMemo").textContent = memo;
       document.getElementById("successPopup").style.display = "flex";
     }
 
-    function closeSuccessPopup() {
-      document.getElementById("successPopup").style.display = "none";
+    function closeSuccessPopup() { 
+      document.getElementById("successPopup").style.display = "none"; 
     }
 
+    // ៥. បញ្ជីទំនិញគណនី Facebook
     const products = [
       { id: 1, title: "Via FB ខ្មែរ (Old Account)", country: "KH", countryName: "ខ្មែរ 🇰🇭", age: "បង្កើតឆ្នាំ 2018 - 2020", format: "UID | Pass | 2FA | Mail", stock: 24, price: 1.50 },
       { id: 2, title: "Clone FB ខ្មែរ (បង្កើតថ្មី)", country: "KH", countryName: "ខ្មែរ 🇰🇭", age: "អាយុ 1 - 3 ខែ", format: "UID | Pass | 2FA", stock: 50, price: 0.35 },
@@ -684,7 +704,6 @@
       { id: 4, title: "Via FB អាមេរិក (Run Ads)", country: "US", countryName: "អាមេរិក 🇺🇸", age: "បង្កើតឆ្នាំ 2021 - 2022", format: "UID | Pass | 2FA | Mail", stock: 18, price: 2.00 }
     ];
 
-    let currentBalance = 0.00;
     let selectedProduct = null;
 
     function renderProducts(items) {
@@ -721,33 +740,84 @@
       else renderProducts(products.filter(p => p.country === type));
     }
 
+    // ៦. មុខងារទិញគណនី (វាយចំនួនតាមចិត្ត)
     function openBuyModal(productId) {
       selectedProduct = products.find(p => p.id === productId);
       document.getElementById('modalTitle').textContent = `ទិញ: ${selectedProduct.title}`;
-      document.getElementById('modalDesc').innerHTML = `តម្លៃ: <strong>$${selectedProduct.price.toFixed(2)}</strong><br>តើអ្នកយល់ព្រមទិញដែរឬទេ?`;
+      document.getElementById('modalDesc').textContent = `តម្លៃក្នុង ១ អាខោន: $${selectedProduct.price.toFixed(2)} | ស្តុកនៅសល់: ${selectedProduct.stock} អាខោន`;
+      
+      const qtyInput = document.getElementById('buyQtyInput');
+      qtyInput.value = 1;
+      qtyInput.max = selectedProduct.stock;
+      updateBuyTotal();
+
       document.getElementById('buyModal').style.display = 'flex';
     }
 
-    function closeBuyModal() {
-      document.getElementById('buyModal').style.display = 'none';
-      selectedProduct = null;
+    function updateBuyTotal() {
+      if (!selectedProduct) return;
+      let qty = parseInt(document.getElementById('buyQtyInput').value);
+      if (isNaN(qty) || qty < 1) qty = 1;
+      const total = selectedProduct.price * qty;
+      document.getElementById('buyTotalCostDisplay').textContent = `$${total.toFixed(2)}`;
     }
 
-    function confirmPurchase() {
+    function closeBuyModal() { 
+      document.getElementById('buyModal').style.display = 'none'; 
+      selectedProduct = null; 
+    }
+
+    async function confirmPurchase() {
       if (!selectedProduct) return;
-      if (currentBalance < selectedProduct.price) {
-        alert("សមតុល្យមិនគ្រប់គ្រាន់ទេ! សូមចុច '+ បញ្ចូលលុយ' តាម KHQR។");
+      
+      let qty = parseInt(document.getElementById('buyQtyInput').value);
+      if (isNaN(qty) || qty < 1) {
+        alert("សូមបញ្ចូលចំនួនអាខោនឱ្យបានត្រឹមត្រូវ!");
+        return;
+      }
+
+      if (qty > selectedProduct.stock) {
+        alert(`ស្តុកមិនគ្រប់គ្រាន់ទេ! បច្ចុប្បន្ននៅសល់តែ ${selectedProduct.stock} អាខោនប៉ុណ្ណោះ។`);
+        return;
+      }
+
+      const totalCost = selectedProduct.price * qty;
+
+      // ពិនិត្យសមតុល្យ
+      if (currentBalance < totalCost) {
+        alert(`សមតុល្យរបស់អ្នក ($${currentBalance.toFixed(2)}) មិនគ្រប់គ្រាន់ទេ!\nអ្នកត្រូវការ $${totalCost.toFixed(2)} ដើម្បីទិញ ${qty} អាខោន។\n\nសូមចុច '+ បញ្ចូលលុយ' តាម KHQR។`);
         closeBuyModal();
         return;
       }
-      currentBalance -= selectedProduct.price;
+
+      // កាត់លុយ និងកាត់ស្តុក
+      currentBalance -= totalCost;
       document.getElementById('userBalance').textContent = `$${currentBalance.toFixed(2)}`;
-      selectedProduct.stock -= 1;
+      selectedProduct.stock -= qty;
       renderProducts(products);
-      alert(`ការទិញជោគជ័យ!\nទិន្នន័យ: 1000849281928|Pass123456|JBSWY3DPEHPK3PXP|mail@domain.com`);
       closeBuyModal();
+
+      // ផ្ញើសារ Order ទៅកាន់ Telegram
+      const orderMessage = 
+        `🛒 *មានការបញ្ជាទិញថ្មី (NEW ORDER)!*\n` +
+        `---------------------------\n` +
+        `👤 *អ្នកទិញ:* \`${currentUser}\`\n` +
+        `📦 *ទំនិញ:* ${selectedProduct.title}\n` +
+        `🔢 *ចំនួនទិញ:* ${qty} អាខោន\n` +
+        `💵 *តម្លៃសរុប:* $${totalCost.toFixed(2)}\n` +
+        `📊 *ស្តុកនៅសល់:* ${selectedProduct.stock} អាខោន\n` +
+        `⏰ *កាលបរិច្ឆេទ:* ${new Date().toLocaleString('km-KH')}`;
+
+      fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: orderMessage, parse_mode: "Markdown" })
+      });
+
+      alert(`ការទិញចំនួន ${qty} អាខោនទទួលបានជោគជ័យ!\nសូមពិនិត្យមើលទិន្នន័យអាខោនរបស់អ្នក។`);
     }
 
+    // ចាប់ផ្ដើម
     renderProducts(products);
   </script>
 </body>
