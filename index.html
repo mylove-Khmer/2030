@@ -41,7 +41,7 @@
       <button onclick="handleLogout()" class="text-xs text-rose-600 font-semibold hover:underline">ចាកចេញ</button>
     </div>
 
-    <!-- បញ្ជីទំនិញនឹងបង្ហាញត្រង់នេះ -->
+    <!-- បញ្ជីទំនិញបង្ហាញត្រង់នេះ -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[65vh] overflow-y-auto pr-1" id="products-container"></div>
   </div>
 
@@ -67,37 +67,42 @@
   </div>
 
   <script>
-    // បញ្ជីទំនិញ/សេវាកម្មឌីជីថល
+    // បញ្ជីទំនិញបែងចែកតាមប្រទេស ឆ្នាំ និងតម្លៃ
     const productList = [
-      { name: "កញ្ចប់សេវាកម្ម KH - 01", country: "Cambodia", price: 0.50 },
-      { name: "កញ្ចប់សេវាកម្ម KH - 02", country: "Cambodia", price: 1.00 },
-      { name: "កញ្ចប់សេវាកម្ម KH - 03", country: "Cambodia", price: 3.50 },
-      { name: "កញ្ចប់សេវាកម្ម KH - 04", country: "Cambodia", price: 5.00 },
-      { name: "កញ្ចប់សេវាកម្ម KH - 05", country: "Cambodia", price: 7.00 },
-      { name: "កញ្ចប់សេវាកម្ម KH - 06", country: "Cambodia", price: 9.00 },
-      { name: "កញ្ចប់សេវាកម្ម US - 01", country: "USA", price: 1.00 },
-      { name: "កញ្ចប់សេវាកម្ម US - 02", country: "USA", price: 2.00 },
-      { name: "កញ្ចប់សេវាកម្ម US - 03", country: "USA", price: 4.00 },
-      { name: "កញ្ចប់សេវាកម្ម US - 04", country: "USA", price: 6.00 },
-      { name: "កញ្ចប់សេវាកម្ម US - 05", country: "USA", price: 8.00 },
-      { name: "កញ្ចប់សេវាកម្ម US - 06", country: "USA", price: 15.00 }
+      { name: "កញ្ចប់ KH", country: "Cambodia", year: "2025", price: 0.50 },
+      { name: "កញ្ចប់ KH", country: "Cambodia", year: "2023", price: 1.00 },
+      { name: "កញ្ចប់ KH", country: "Cambodia", year: "2020", price: 3.50 },
+      { name: "កញ្ចប់ KH", country: "Cambodia", year: "2018", price: 5.00 },
+      { name: "កញ្ចប់ KH", country: "Cambodia", year: "2015", price: 7.00 },
+      { name: "កញ្ចប់ KH", country: "Cambodia", year: "2010", price: 9.00 },
+      { name: "កញ្ចប់ USA", country: "USA", year: "2025", price: 1.00 },
+      { name: "កញ្ចប់ USA", country: "USA", year: "2023", price: 2.00 },
+      { name: "កញ្ចប់ USA", country: "USA", year: "2020", price: 4.00 },
+      { name: "កញ្ចប់ USA", country: "USA", year: "2018", price: 6.00 },
+      { name: "កញ្ចប់ USA", country: "USA", year: "2015", price: 8.00 },
+      { name: "កញ្ចប់ USA", country: "USA", year: "2010", price: 15.00 }
     ];
 
-    // បង្ហាញបញ្ជីទំនិញទៅក្នុង HTML
+    // បង្ហាញបញ្ជីទំនិញ
     function renderProducts() {
       const container = document.getElementById('products-container');
       container.innerHTML = '';
 
       productList.forEach(item => {
         const badgeColor = item.country === 'USA' ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700';
+        const itemFullName = `${item.name} + ឆ្នាំ${item.year}`;
+
         container.innerHTML += `
           <div class="border rounded-xl p-4 flex flex-col justify-between hover:border-sky-700 transition space-y-3 bg-white">
             <div>
-              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded ${badgeColor}">${item.country}</span>
-              <h3 class="font-bold text-slate-800 text-sm mt-1">${item.name}</h3>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded ${badgeColor}">${item.country}</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600">ឆ្នាំ ${item.year}</span>
+              </div>
+              <h3 class="font-bold text-slate-800 text-sm mt-2">${itemFullName}</h3>
               <div class="text-xl font-bold text-sky-800 mt-1">$${item.price.toFixed(2)}</div>
             </div>
-            <button onclick="openPayment('${item.name}', ${item.price})" class="w-full py-2 bg-sky-800 hover:bg-sky-900 text-white text-xs font-bold rounded-lg shadow-sm">
+            <button onclick="openPayment('${itemFullName}', ${item.price})" class="w-full py-2 bg-sky-800 hover:bg-sky-900 text-white text-xs font-bold rounded-lg shadow-sm">
               ទិញឥឡូវនេះ
             </button>
           </div>
@@ -105,7 +110,7 @@
       });
     }
 
-    // គណនា CRC16 សម្រាប់ ABA KHQR
+    // គណនា CRC16-CCITT សម្រាប់ ABA KHQR
     function getCRC16(str) {
       let crc = 0xFFFF;
       for (let i = 0; i < str.length; i++) {
@@ -121,7 +126,7 @@
       return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
     }
 
-    // បង្កើត ABA KHQR ភ្ជាប់ទឹកប្រាក់ស្វ័យប្រវត្តិ
+    // បង្កើត Dynamic ABA KHQR
     function generateABA_KHQR(amount) {
       const formattedAmount = Number(amount).toFixed(2);
       const amountStr = String(formattedAmount);
