@@ -64,7 +64,7 @@
     }
 
     .btn-topup {
-      background-color: #22c55e;
+      background-color: #e1192e;
       color: #ffffff;
       border: none;
       padding: 7px 14px;
@@ -76,7 +76,7 @@
     }
 
     .btn-topup:hover {
-      background-color: #16a34a;
+      background-color: #be1224;
     }
 
     /* Container & Products */
@@ -188,12 +188,12 @@
       cursor: pointer;
     }
 
-    /* Modal General */
+    /* Modal General Overlay */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       display: none;
       justify-content: center;
       align-items: center;
@@ -210,103 +210,103 @@
       text-align: center;
     }
 
-    /* ABA KHQR Card Style */
-    .aba-card {
-      background: #004b6e;
+    /* KHQR Standee Card Theme */
+    .khqr-standee-card {
+      background: #ffffff;
       border-radius: 24px;
-      width: 92%;
-      max-width: 360px;
-      padding: 24px 20px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+      width: 95%;
+      max-width: 370px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
       position: relative;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-align: center;
+      padding-bottom: 22px;
+      animation: popUp 0.25s ease-out;
     }
 
-    .close-card-btn {
-      position: absolute;
-      top: 12px;
-      right: 16px;
-      background: transparent;
-      border: none;
-      font-size: 24px;
-      color: #ffffff;
-      cursor: pointer;
-      opacity: 0.7;
+    @keyframes popUp {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
-    .close-card-btn:hover { opacity: 1; }
 
-    .khqr-header {
+    /* ក្បាលក្រហម KHQR ខាងលើ */
+    .khqr-top-banner {
+      background-color: #e1192e;
+      height: 65px;
       display: flex;
       justify-content: center;
-      margin-bottom: 10px;
-    }
-
-    .khqr-logo {
-      background-color: #e1192e;
-      color: #ffffff;
-      font-weight: 900;
-      font-size: 14px;
-      letter-spacing: 1.5px;
-      padding: 4px 18px;
-      border-radius: 6px;
-    }
-
-    .merchant-info .bank-name {
-      color: #00bcd4;
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-
-    .merchant-info .merchant-name {
-      color: #ffffff;
-      font-size: 17px;
-      font-weight: bold;
-      margin: 2px 0 4px;
-      text-transform: uppercase;
-    }
-
-    /* Input Custom Amount */
-    .amount-input-wrapper {
-      margin: 8px 0 12px;
-    }
-
-    .amount-input-group {
-      display: inline-flex;
       align-items: center;
-      background: rgba(15, 23, 42, 0.5);
-      border: 1px solid #00bcd4;
-      border-radius: 10px;
-      padding: 4px 12px;
+      position: relative;
     }
 
-    .currency-symbol {
-      color: #22c55e;
-      font-size: 24px;
-      font-weight: bold;
-      margin-right: 4px;
+    .khqr-top-banner h2 {
+      color: #ffffff;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
     }
 
-    .amount-input {
+    .khqr-close-btn {
+      position: absolute;
+      top: 10px;
+      right: 14px;
       background: transparent;
       border: none;
-      color: #22c55e;
-      font-size: 24px;
-      font-weight: bold;
-      width: 110px;
-      outline: none;
-      text-align: left;
+      font-size: 28px;
+      color: #ffffff;
+      cursor: pointer;
+      opacity: 0.85;
+      line-height: 1;
+    }
+    .khqr-close-btn:hover { opacity: 1; }
+
+    .khqr-body {
+      padding: 16px 20px 0 20px;
     }
 
-    /* QR Box with ABA Logo Centered */
-    .qr-wrapper {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 14px;
-      display: inline-block;
-      margin: 0 auto 12px auto;
+    /* ប្រអប់បញ្ចូលតម្លៃលុយ */
+    .amount-control {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .amount-control label {
+      color: #475569;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .amount-control input {
+      width: 105px;
+      padding: 5px 8px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #0f172a;
+      outline: none;
+      text-align: center;
+    }
+    .amount-control input:focus {
+      border-color: #e1192e;
+    }
+
+    .dash-separator {
+      border: none;
+      border-top: 2px dashed #e2e8f0;
+      margin: 12px 0 16px;
+    }
+
+    /* ប្រអប់ QR Code ធំទូលាយ */
+    .qr-large-wrapper {
       position: relative;
+      display: inline-block;
+      margin: 0 auto;
     }
 
     #qrcode {
@@ -317,88 +317,58 @@
 
     #qrcode canvas, #qrcode img {
       display: block;
-      border-radius: 6px;
     }
 
-    /* Logo ABA នៅចំកណ្តាល QR */
-    .qr-center-logo {
+    /* Logo ផ្កាចន្ទន៍ Bakong ក្រហម ចំកណ្តាល QR */
+    .bakong-center-logo {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 38px;
-      height: 38px;
-      background: #004b6e;
-      border: 3px solid #ffffff;
-      border-radius: 8px;
+      width: 44px;
+      height: 44px;
+      background: #e1192e;
+      border: 3.5px solid #ffffff;
+      border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       pointer-events: none;
     }
 
-    .qr-center-logo span {
-      color: #ffffff;
-      font-size: 10px;
-      font-weight: 900;
+    .bakong-center-logo svg {
+      width: 22px;
+      height: 22px;
+      fill: #ffffff;
+    }
+
+    .memo-text {
+      font-size: 13px;
+      color: #64748b;
+      margin: 14px 0 16px;
+    }
+    .memo-text strong {
+      color: #0f172a;
       letter-spacing: 0.5px;
     }
 
-    .quick-amounts {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-
-    .amt-chip {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #ffffff;
-      padding: 4px 10px;
-      border-radius: 16px;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .amt-chip:hover {
-      background: #00bcd4;
-      color: #0f172a;
-      font-weight: bold;
-    }
-
-    .memo-badge {
-      background: rgba(15, 23, 42, 0.6);
-      border-radius: 8px;
-      padding: 8px 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      color: #94a3b8;
-      margin-bottom: 14px;
-    }
-
-    .memo-badge strong {
-      color: #38bdf8;
-      font-size: 14px;
-      letter-spacing: 1px;
-    }
-
-    .btn-done {
-      width: 100%;
+    .btn-done-red {
+      width: calc(100% - 40px);
+      margin: 0 20px;
       padding: 12px;
-      background-color: #22c55e;
+      background-color: #e1192e;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       color: #ffffff;
       font-size: 15px;
       font-weight: bold;
       cursor: pointer;
+      transition: background-color 0.2s;
     }
-
-    .btn-done:hover { background-color: #16a34a; }
+    .btn-done-red:hover {
+      background-color: #be1224;
+    }
   </style>
 </head>
 <body>
@@ -440,56 +410,49 @@
     </div>
   </div>
 
-  <!-- ABA KHQR Deposit Modal -->
+  <!-- KHQR Standee Modal -->
   <div class="modal-overlay" id="depositModal">
-    <div class="aba-card">
-      <button class="close-card-btn" onclick="closeDepositModal()">&times;</button>
-
-      <div class="khqr-header">
-        <div class="khqr-logo">KHQR</div>
+    <div class="khqr-standee-card">
+      
+      <!-- ក្បាលក្រហម KHQR -->
+      <div class="khqr-top-banner">
+        <h2>KHQR</h2>
+        <button class="khqr-close-btn" onclick="closeDepositModal()">&times;</button>
       </div>
 
-      <div class="merchant-info">
-        <div class="bank-name">ABA BANK</div>
-        <div class="merchant-name">MON SAMNANG</div>
-        
-        <!-- ប្រអប់ឱ្យភ្ញៀវបញ្ចូលចំនួនលុយតាមចិត្ត -->
-        <div class="amount-input-wrapper">
-          <div class="amount-input-group">
-            <span class="currency-symbol">$</span>
-            <input type="number" step="any" min="0.1" id="customAmountInput" class="amount-input" value="2.00" oninput="onAmountChanged()">
+      <div class="khqr-body">
+        <!-- ប្រអប់វាយចំនួនលុយ -->
+        <div class="amount-control">
+          <label>ចំនួនទឹកប្រាក់ ($):</label>
+          <input type="number" step="any" min="0.1" id="customAmountInput" value="2.00" oninput="onAmountChanged()">
+        </div>
+
+        <hr class="dash-separator">
+
+        <!-- រូប QR Code ធំច្បាស់ និង Logo Bakong កណ្តាល -->
+        <div class="qr-large-wrapper">
+          <div id="qrcode"></div>
+          <div class="bakong-center-logo">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/>
+            </svg>
           </div>
         </div>
-      </div>
 
-      <!-- ប្រអប់ QR Code ដែលមាន Logo ABA នៅចំកណ្តាល -->
-      <div class="qr-wrapper">
-        <div id="qrcode"></div>
-        <div class="qr-center-logo">
-          <span>ABA</span>
+        <!-- Memo -->
+        <div class="memo-text">
+          កូដសម្គាល់ (Memo): <strong id="transferCode">TOPUP9562</strong>
         </div>
       </div>
 
-      <!-- ប៊ូតុងផ្លូវកាត់សម្រាប់រើសតម្លៃ -->
-      <div class="quick-amounts">
-        <button type="button" class="amt-chip" onclick="setQuickAmount(1)">$1</button>
-        <button type="button" class="amt-chip" onclick="setQuickAmount(2)">$2</button>
-        <button type="button" class="amt-chip" onclick="setQuickAmount(5)">$5</button>
-        <button type="button" class="amt-chip" onclick="setQuickAmount(10)">$10</button>
-        <button type="button" class="amt-chip" onclick="setQuickAmount(20)">$20</button>
-      </div>
+      <!-- ប៊ូតុងបញ្ជាក់ការផ្ទេរ -->
+      <button class="btn-done-red" onclick="submitDepositNotification()">ខ្ញុំបានផ្ទេររួចរាល់</button>
 
-      <div class="memo-badge">
-        <span>កូដចំណាំ (Memo):</span>
-        <strong id="transferCode">TOPUP9562</strong>
-      </div>
-
-      <button class="btn-done" onclick="submitDepositNotification()">ខ្ញុំបានផ្ទេររួចរាល់</button>
     </div>
   </div>
 
   <script>
-    // ១. ក្បួនគណនា CRC16-CCITT សម្រាប់ Bakong KHQR Payload
+    // ១. ក្បួនគណនា CRC16-CCITT សម្រាប់ Bakong KHQR
     function getCRC16(data) {
       let crc = 0xFFFF;
       for (let i = 0; i < data.length; i++) {
@@ -511,7 +474,6 @@
       const formattedAmount = Number(amount).toFixed(2);
       const amtTag = "54" + formattedAmount.length.toString().padStart(2, '0') + formattedAmount;
 
-      // Base Payload ដែលយកចេញពីកុង ABA របស់អ្នក
       const basePayload = 
         "000201010212" +
         "30510016abaakhppxxx@abaa01151260903142910660208ABA Bank" +
@@ -527,7 +489,7 @@
       return basePayload + finalChecksum;
     }
 
-    // ៣. បង្ហាញ QR Code ចូលទៅក្នុងប្រអប់
+    // ៣. បង្ហាញ QR Code ចូលទៅក្នុងប្រអប់ (ទំហំធំ 250px)
     let qrMaker = null;
     function renderQR(amount) {
       const qrContainer = document.getElementById("qrcode");
@@ -537,8 +499,8 @@
 
       qrMaker = new QRCode(qrContainer, {
         text: khqrString,
-        width: 175,
-        height: 175,
+        width: 250,
+        height: 250,
         colorDark: "#000000",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.M
@@ -550,11 +512,6 @@
       if (!isNaN(val) && val > 0) {
         renderQR(val);
       }
-    }
-
-    function setQuickAmount(val) {
-      document.getElementById("customAmountInput").value = val.toFixed(2);
-      renderQR(val);
     }
 
     function openDepositModal() {
@@ -570,13 +527,12 @@
       document.getElementById('depositModal').style.display = 'none';
     }
 
-    // ៤. ដំណើរការពេលភ្ញៀវចុច "ខ្ញុំបានផ្ទេររួចរាល់" (មិនបូកលុយដើរខ្លួនឯងទេ)
+    // ៤. ដំណើរការពេលភ្ញៀវចុច "ខ្ញុំបានផ្ទេររួចរាល់"
     function submitDepositNotification() {
       const amount = document.getElementById("customAmountInput").value;
       const memo = document.getElementById("transferCode").textContent;
 
-      // បង្ហាញសារជូនដំណឹងឱ្យផ្ញើវិក្កយបត្រដើម្បី Admin ពិនិត្យបញ្ជាក់
-      alert(`សំណើបញ្ចូលប្រាក់ចំនួន $${amount} (Memo: ${memo}) ត្រូវបានកត់ត្រា!\n\nសូមរក្សាទុកវិក្កយបត្រ ABA របស់អ្នក ឬផ្ញើវិក្កយបត្រទៅកាន់ Telegram Admin ដើម្បីផ្ទៀងផ្ទាត់ និងបញ្ចូលសមតុល្យជូន។`);
+      alert(`សំណើបញ្ចូលប្រាក់ចំនួន $${amount} (Memo: ${memo}) ត្រូវបានកត់ត្រា!\n\nសូមរក្សាទុកវិក្កយបត្រ ABA របស់អ្នក ឬផ្ញើវិក្កយបត្រទៅកាន់ Admin ដើម្បីពិនិត្យ និងបញ្ចូលសមតុល្យជូន។`);
       
       closeDepositModal();
     }
@@ -641,7 +597,7 @@
     function confirmPurchase() {
       if (!selectedProduct) return;
       if (currentBalance < selectedProduct.price) {
-        alert("សមតុល្យមិនគ្រប់គ្រាន់ទេ! សូមចុច 'បញ្ចូលលុយ' តាម ABA KHQR។");
+        alert("សមតុល្យមិនគ្រប់គ្រាន់ទេ! សូមចុច '+ បញ្ចូលលុយ' តាម KHQR។");
         closeBuyModal();
         return;
       }
@@ -653,6 +609,7 @@
       closeBuyModal();
     }
 
+    // ចាប់ផ្ដើម
     renderProducts(products);
   </script>
 </body>
