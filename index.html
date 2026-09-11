@@ -71,31 +71,43 @@
     </div>
   </div>
 
-  <!-- ៣. ផ្ទាំង MODAL បង្ហាញ KHQR សម្រាប់ទូទាត់ -->
+  <!-- ៣. ផ្ទាំង MODAL បង្ហាញ KHQR (BAKONG & ABA) -->
   <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-xs w-full overflow-hidden shadow-2xl border border-slate-200 text-center">
-      <div class="bg-rose-600 text-white py-3">
-        <h3 class="font-bold tracking-wider">KHQR PAYMENT</h3>
+      
+      <!-- ក្បាល Header -->
+      <div id="modal-header" class="bg-rose-600 text-white py-3 transition-colors">
+        <h3 class="font-bold tracking-wider" id="modal-title">BAKONG KHQR</h3>
       </div>
       
       <div class="p-5 space-y-3">
+        <!-- ប៊ូតុងជ្រើសរើសធនាគារ -->
+        <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-lg">
+          <button onclick="switchBank('bakong')" id="tab-bakong" class="py-1.5 text-xs font-bold rounded-md bg-white text-rose-600 shadow-sm">Bakong</button>
+          <button onclick="switchBank('aba')" id="tab-aba" class="py-1.5 text-xs font-bold rounded-md text-slate-600">ABA Bank</button>
+        </div>
+
         <div class="text-xs text-slate-500 font-semibold" id="qr-product-name">គម្រោង</div>
-        <div class="text-2xl font-bold text-rose-600" id="qr-amount">$0.00</div>
+        <div class="text-2xl font-bold text-slate-800" id="qr-amount">$0.00</div>
         
-        <!-- កន្លែងបង្ហាញ QR Code ពិតប្រាកដ -->
         <div class="flex justify-center my-2">
           <canvas id="modal-qr" class="border rounded-xl p-2 bg-white"></canvas>
         </div>
 
-        <p class="text-xs text-slate-400">ស្កេនជាមួយ Bakong ឬ App ធនាគារណាក៏បាន</p>
+        <p class="text-xs text-slate-400">ស្កេនជាមួយ App ធនាគារដែលបានជ្រើសរើស</p>
         <button onclick="closeModal()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg">បិទផ្ទាំង</button>
       </div>
     </div>
   </div>
 
   <script>
-    // ខ្សែអក្សរ EMVCo KHQR ផ្លូវការរបស់គណនី Bakong អ្នក
-    const OFFICIAL_KHQR = "00020101021115311974011600520446BONG1000231208129200016samnang_mon@bkrt5204599953031165802KH5911SAMNANG MON6010Phnom Penh6304F6F0";
+    // ១. កូដ Bakong ផ្លូវការរបស់អ្នក
+    const BAKONG_KHQR = "00020101021115311974011600520446BONG1000231208129200016samnang_mon@bkrt5204599953031165802KH5911SAMNANG MON6010Phnom Penh6304F6F0";
+
+    // ២. កូដ ABA KHQR ផ្លូវការរបស់អ្នក
+    const ABA_KHQR = "00020101021130510016abaakhppxxx@abaa01151260903142910660208ABA Bank5204651353038405802KH5911MON SAMNANG6012KAMPONG THOM624268380010PAYWAY@ABA01071950962020903248607663044150";
+
+    let currentSelectedBank = 'bakong';
 
     function handleRegister() {
       const username = document.getElementById('reg-name').value.trim();
@@ -129,14 +141,37 @@
       document.getElementById('qr-product-name').textContent = productName;
       document.getElementById('qr-amount').textContent = `$${price.toFixed(2)}`;
       document.getElementById('payment-modal').classList.remove('hidden');
+      switchBank('bakong'); // បើក Bakong ជាលំនាំដើម
+    }
 
-      // គូរ QR Code ដោយប្រើកូដ Bakong ពិតប្រាកដ
-      QRCode.toCanvas(document.getElementById('modal-qr'), OFFICIAL_KHQR, {
-        width: 180,
+    function switchBank(bank) {
+      currentSelectedBank = bank;
+      const tabBakong = document.getElementById('tab-bakong');
+      const tabAba = document.getElementById('tab-aba');
+      const header = document.getElementById('modal-header');
+      const title = document.getElementById('modal-title');
+
+      let targetQR = BAKONG_KHQR;
+
+      if (bank === 'aba') {
+        targetQR = ABA_KHQR;
+        header.className = "bg-sky-800 text-white py-3 transition-colors";
+        title.textContent = "ABA PAY KHQR";
+        tabAba.className = "py-1.5 text-xs font-bold rounded-md bg-white text-sky-800 shadow-sm";
+        tabBakong.className = "py-1.5 text-xs font-bold rounded-md text-slate-600";
+      } else {
+        targetQR = BAKONG_KHQR;
+        header.className = "bg-rose-600 text-white py-3 transition-colors";
+        title.textContent = "BAKONG KHQR";
+        tabBakong.className = "py-1.5 text-xs font-bold rounded-md bg-white text-rose-600 shadow-sm";
+        tabAba.className = "py-1.5 text-xs font-bold rounded-md text-slate-600";
+      }
+
+      // បង្កើត QR Code តាមខ្សែអក្សរផ្លូវការ
+      QRCode.toCanvas(document.getElementById('modal-qr'), targetQR, {
+        width: 170,
         margin: 1,
         errorCorrectionLevel: 'M'
-      }, function(error) {
-        if (error) console.error("កំហុស QR:", error);
       });
     }
 
