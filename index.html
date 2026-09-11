@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>សេវាកម្មឌីជីថល - Digital Plans Store</title>
+  <title>សេវាកម្មឌីជីថល - Store</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap');
     * { font-family: 'Kantumruy Pro', sans-serif; }
@@ -81,19 +80,18 @@
         <div class="text-xs text-slate-500 font-semibold" id="qr-product-name">គម្រោង</div>
         <div class="text-2xl font-bold text-rose-600" id="qr-amount">$0.00</div>
         
+        <!-- កន្លែងបង្ហាញរូបភាព QR Code ពិតប្រាកដ -->
         <div class="flex justify-center my-2">
-          <canvas id="modal-qr" class="border rounded-xl p-1 bg-white"></canvas>
+          <img src="my-qr.png" alt="Bakong QR Code" class="w-48 h-auto border rounded-xl p-1 bg-white">
         </div>
 
-        <p class="text-xs text-slate-400">ស្កេនជាមួយ Bakong ឬ App ធនាគារ</p>
+        <p class="text-xs text-slate-400">ស្កេនជាមួយ Bakong ឬ Mobile Banking ណាមួយ</p>
         <button onclick="closeModal()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg">បិទផ្ទាំង</button>
       </div>
     </div>
   </div>
 
   <script>
-    const BAKONG_ID = 'samnang_mon@bkrt';
-
     function handleRegister() {
       const username = document.getElementById('reg-name').value.trim();
       const email = document.getElementById('reg-email').value.trim();
@@ -104,7 +102,6 @@
         return;
       }
 
-      // រក្សាទុកព័ត៌មានភ្ញៀវ
       localStorage.setItem('user_session', JSON.stringify({ username, email }));
       showStoreView(username, email);
     }
@@ -126,11 +123,6 @@
     function openPayment(productName, price) {
       document.getElementById('qr-product-name').textContent = productName;
       document.getElementById('qr-amount').textContent = `$${price.toFixed(2)}`;
-
-      // បង្កើត QR Data
-      const qrData = `${BAKONG_ID}?amount=${price.toFixed(2)}&currency=USD`;
-      QRCode.toCanvas(document.getElementById('modal-qr'), qrData, { width: 160, margin: 1 });
-
       document.getElementById('payment-modal').classList.remove('hidden');
     }
 
@@ -138,7 +130,6 @@
       document.getElementById('payment-modal').classList.add('hidden');
     }
 
-    // ពិនិត្យមើលថាតើភ្ញៀវបាន Login រួចឬនៅ
     window.onload = function() {
       const session = localStorage.getItem('user_session');
       if (session) {
