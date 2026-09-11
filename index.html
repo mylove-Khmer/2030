@@ -438,7 +438,7 @@
       padding: 11px; 
       border-radius: 10px; 
       margin-bottom: 10px; 
-      transition: 0.2s;
+      transition: 0.2s; 
     }
     .btn-telegram:hover { background-color: #0077b5; }
     .btn-close-pop { 
@@ -648,7 +648,7 @@
       document.getElementById('depositModal').style.display = 'none'; 
     }
 
-    // ៤. ដំណើរការផ្ញើដំណឹងពេលភ្ញៀវបាញ់លុយ (មានប៊ូតុង Approve / Reject លើ Telegram)
+    // ៤. ផ្ញើដំណឹងពេលភ្ញៀវបាញ់លុយ (Approve / Reject លើ Telegram)
     async function submitDepositNotification() {
       const amount = document.getElementById("customAmountInput").value;
       const memo = document.getElementById("transferCode").textContent;
@@ -696,12 +696,12 @@
       document.getElementById("successPopup").style.display = "none"; 
     }
 
-    // ៥. បញ្ជីទំនិញគណនី Facebook
+    // ៥. បញ្ជីទំនិញគណនី Facebook (ស្តុក 100,000 អាខោន)
     const products = [
-      { id: 1, title: "Via FB ខ្មែរ (Old Account)", country: "KH", countryName: "ខ្មែរ 🇰🇭", age: "បង្កើតឆ្នាំ 2018 - 2020", format: "UID | Pass | 2FA | Mail", stock: 24, price: 1.50 },
-      { id: 2, title: "Clone FB ខ្មែរ (បង្កើតថ្មី)", country: "KH", countryName: "ខ្មែរ 🇰🇭", age: "អាយុ 1 - 3 ខែ", format: "UID | Pass | 2FA", stock: 50, price: 0.35 },
-      { id: 3, title: "Via FB អាមេរិក (US Aged)", country: "US", countryName: "អាមេរិក 🇺🇸", age: "បង្កើតឆ្នាំ 2015 - 2017", format: "UID | Pass | 2FA | Hotmail", stock: 12, price: 3.20 },
-      { id: 4, title: "Via FB អាមេរិក (Run Ads)", country: "US", countryName: "អាមេរិក 🇺🇸", age: "បង្កើតឆ្នាំ 2021 - 2022", format: "UID | Pass | 2FA | Mail", stock: 18, price: 2.00 }
+      { id: 1, title: "Via FB ខ្មែរ (Old Account)", country: "KH", countryName: "ខ្មែរ 🇰🇭", age: "បង្កើតឆ្នាំ 2018 - 2020", format: "UID | Pass | 2FA | Mail", stock: 100000, price: 1.50 },
+      { id: 2, title: "Clone FB ខ្មែរ (បង្កើតថ្មី)", country: "KH", countryName: "ខ្មែរ 🇰🇭", age: "អាយុ 1 - 3 ខែ", format: "UID | Pass | 2FA", stock: 100000, price: 0.35 },
+      { id: 3, title: "Via FB អាមេរិក (US Aged)", country: "US", countryName: "អាមេរិក 🇺🇸", age: "បង្កើតឆ្នាំ 2015 - 2017", format: "UID | Pass | 2FA | Hotmail", stock: 100000, price: 3.20 },
+      { id: 4, title: "Via FB អាមេរិក (Run Ads)", country: "US", countryName: "អាមេរិក 🇺🇸", age: "បង្កើតឆ្នាំ 2021 - 2022", format: "UID | Pass | 2FA | Mail", stock: 100000, price: 2.00 }
     ];
 
     let selectedProduct = null;
@@ -721,7 +721,7 @@
               <ul class="product-meta">
                 <li><span>អាយុអាខោន:</span><span class="highlight">${item.age}</span></li>
                 <li><span>ទម្រង់ទិន្នន័យ:</span><span>${item.format}</span></li>
-                <li><span>ស្តុកនៅសល់:</span><span class="stock-badge">${item.stock} អាខោន</span></li>
+                <li><span>ស្តុកនៅសល់:</span><span class="stock-badge">${item.stock.toLocaleString()} អាខោន</span></li>
               </ul>
             </div>
             <div class="card-bottom">
@@ -740,15 +740,14 @@
       else renderProducts(products.filter(p => p.country === type));
     }
 
-    // ៦. មុខងារទិញគណនី (វាយចំនួនតាមចិត្ត)
+    // ៦. មុខងារទិញគណនី (វាយចំនួនតាមចិត្ត និងទិញមិនចេះអស់)
     function openBuyModal(productId) {
       selectedProduct = products.find(p => p.id === productId);
       document.getElementById('modalTitle').textContent = `ទិញ: ${selectedProduct.title}`;
-      document.getElementById('modalDesc').textContent = `តម្លៃក្នុង ១ អាខោន: $${selectedProduct.price.toFixed(2)} | ស្តុកនៅសល់: ${selectedProduct.stock} អាខោន`;
+      document.getElementById('modalDesc').textContent = `តម្លៃក្នុង ១ អាខោន: $${selectedProduct.price.toFixed(2)} | ស្តុកនៅសល់: ${selectedProduct.stock.toLocaleString()} អាខោន`;
       
       const qtyInput = document.getElementById('buyQtyInput');
       qtyInput.value = 1;
-      qtyInput.max = selectedProduct.stock;
       updateBuyTotal();
 
       document.getElementById('buyModal').style.display = 'flex';
@@ -776,11 +775,6 @@
         return;
       }
 
-      if (qty > selectedProduct.stock) {
-        alert(`ស្តុកមិនគ្រប់គ្រាន់ទេ! បច្ចុប្បន្ននៅសល់តែ ${selectedProduct.stock} អាខោនប៉ុណ្ណោះ។`);
-        return;
-      }
-
       const totalCost = selectedProduct.price * qty;
 
       // ពិនិត្យសមតុល្យ
@@ -790,10 +784,12 @@
         return;
       }
 
-      // កាត់លុយ និងកាត់ស្តុក
+      // កាត់លុយ
       currentBalance -= totalCost;
       document.getElementById('userBalance').textContent = `$${currentBalance.toFixed(2)}`;
-      selectedProduct.stock -= qty;
+      
+      // រក្សាស្តុក 100,000 អាខោនដដែល (ទិញមិនចេះអស់)
+      selectedProduct.stock = 100000;
       renderProducts(products);
       closeBuyModal();
 
@@ -805,7 +801,7 @@
         `📦 *ទំនិញ:* ${selectedProduct.title}\n` +
         `🔢 *ចំនួនទិញ:* ${qty} អាខោន\n` +
         `💵 *តម្លៃសរុប:* $${totalCost.toFixed(2)}\n` +
-        `📊 *ស្តុកនៅសល់:* ${selectedProduct.stock} អាខោន\n` +
+        `📊 *ស្តុកនៅសល់:* 100,000+ អាខោន (Unlimited)\n` +
         `⏰ *កាលបរិច្ឆេទ:* ${new Date().toLocaleString('km-KH')}`;
 
       fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
@@ -814,7 +810,7 @@
         body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: orderMessage, parse_mode: "Markdown" })
       });
 
-      alert(`ការទិញចំនួន ${qty} អាខោនទទួលបានជោគជ័យ!\nសូមពិនិត្យមើលទិន្នន័យអាខោនរបស់អ្នក។`);
+      alert(`ការទិញចំនួន ${qty} អាខោនទទួលបានជោគជ័យ!\nទិន្នន័យគណនីរបស់អ្នកត្រូវបានបញ្ជូនរួចរាល់។`);
     }
 
     // ចាប់ផ្ដើម
