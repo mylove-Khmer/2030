@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap');
+    * { font-family: 'Kantumruy Pro', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen p-6">
+
+  <div class="max-w-4xl mx-auto space-y-6">
+    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex justify-between items-center">
+      <h1 class="text-xl font-bold text-slate-800">ផ្ទាំងគ្រប់គ្រង Admin</h1>
+      <span class="text-xs bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full font-bold">Admin Active</span>
+    </div>
+
+    <!-- ស្ថិតិភ្ញៀវ -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <span class="text-xs text-slate-500 font-semibold">ចំនួនអ្នកចូលមើលវេបសាយ</span>
+        <div class="text-2xl font-bold text-slate-800 mt-1" id="stat-visits">0</div>
+      </div>
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <span class="text-xs text-slate-500 font-semibold">អ៊ីមែលភ្ញៀវចូលចុងក្រោយ</span>
+        <div class="text-lg font-bold text-slate-800 mt-1 truncate" id="stat-user-email">គ្មាន</div>
+      </div>
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <span class="text-xs text-slate-500 font-semibold">សមតុល្យក្នុងកាបូបភ្ញៀវ</span>
+        <div class="text-2xl font-bold text-emerald-600 mt-1" id="stat-balance">$0.00</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- កំណត់តម្លៃ និងការបញ្ចុះតម្លៃ -->
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+        <h2 class="text-md font-bold text-slate-800 border-b pb-2">កំណត់តម្លៃ និងប្រូម៉ូសិន</h2>
+        <div>
+          <label class="text-xs font-semibold text-slate-600">តម្លៃដើម ($)</label>
+          <input type="number" id="input-price" step="0.5" class="w-full mt-1 p-2 border rounded-lg text-sm">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-slate-600">ភាគរយបញ្ចុះតម្លៃ (%)</label>
+          <input type="number" id="input-discount" min="0" max="100" class="w-full mt-1 p-2 border rounded-lg text-sm">
+        </div>
+        <button onclick="savePricing()" class="w-full py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-sm font-semibold">រក្សាទុកតម្លៃ</button>
+      </div>
+
+      <!-- បញ្ចូលលុយឱ្យភ្ញៀវ -->
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+        <h2 class="text-md font-bold text-slate-800 border-b pb-2">បញ្ចូលទឹកប្រាក់ឱ្យភ្ញៀវ (Wallet Top-up)</h2>
+        <div>
+          <label class="text-xs font-semibold text-slate-600">ចំនួនទឹកប្រាក់ ($)</label>
+          <input type="number" id="input-topup" placeholder="0.00" step="1" class="w-full mt-1 p-2 border rounded-lg text-sm">
+        </div>
+        <button onclick="addBalance()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-semibold">បញ្ចូលទឹកប្រាក់</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function loadAdminData() {
+      const visits = localStorage.getItem('sys_visits') || 0;
+      const email = localStorage.getItem('sys_email') || 'customer@gmail.com';
+      const balance = parseFloat(localStorage.getItem('sys_balance') || 0);
+      const price = parseFloat(localStorage.getItem('sys_orig_price') || 10.00);
+      const discount = parseFloat(localStorage.getItem('sys_discount') || 20);
+
+      document.getElementById('stat-visits').textContent = visits;
+      document.getElementById('stat-user-email').textContent = email;
+      document.getElementById('stat-balance').textContent = `$${balance.toFixed(2)}`;
+      document.getElementById('input-price').value = price;
+      document.getElementById('input-discount').value = discount;
+    }
+
+    function savePricing() {
+      const price = parseFloat(document.getElementById('input-price').value) || 0;
+      const discount = parseFloat(document.getElementById('input-discount').value) || 0;
+      localStorage.setItem('sys_orig_price', price);
+      localStorage.setItem('sys_discount', discount);
+      alert('បានកែប្រែតម្លៃរួចរាល់!');
+      loadAdminData();
+    }
+
+    function addBalance() {
+      const topup = parseFloat(document.getElementById('input-topup').value) || 0;
+      if (topup > 0) {
+        let currentBalance = parseFloat(localStorage.getItem('sys_balance') || 0);
+        currentBalance += topup;
+        localStorage.setItem('sys_balance', currentBalance);
+        document.getElementById('input-topup').value = '';
+        alert(`បានបញ្ចូលទឹកប្រាក់ចំនួន $${topup.toFixed(2)} ជូនភ្ញៀវរួចរាល់!`);
+        loadAdminData();
+      }
+    }
+
+    window.onload = loadAdminData;
+  </script>
+</body>
+</html>
